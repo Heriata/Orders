@@ -11,7 +11,6 @@ public class NumbersServiceClient {
         RestTemplate restTemplate = new RestTemplate();
         String url = "http://localhost:8081/api/numbers";
         ResponseEntity<String> forEntity = restTemplate.getForEntity(url, String.class);
-//        return forEntity.getBody();
-        return "11111";
+        return forEntity.getBody();
     }
 }

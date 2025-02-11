@@ -7,9 +7,8 @@ import com.heriata.order_service.dto.OrderDto;
 import com.heriata.order_service.dto.OrderOthersDto;
 import com.heriata.order_service.model.Details;
 import com.heriata.order_service.model.Order;
-import com.heriata.order_service.repository.DetailsRepository;
-import com.heriata.order_service.repository.OrderRepository;
-import com.heriata.order_service.repository.projection.OrderDetailsProjection;
+import com.heriata.order_service.repository.DetailsJDBCRepository;
+import com.heriata.order_service.repository.OrderJDBCRepository;
 import com.heriata.order_service.rest_client.NumbersServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +20,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    private final OrderRepository orderRepository;
-    private final DetailsRepository detailsRepository;
+    private final OrderJDBCRepository orderRepository;
+    private final DetailsJDBCRepository detailsRepository;
     private final NumbersServiceClient numbersServiceClient;
 
     @Override
@@ -47,42 +46,20 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public OrderDetailsDto getByID(Long id) {
-        OrderDetailsProjection byOrderId = orderRepository.findByOrderId(id);
-        return mapDetailsOrderProjectionToOrderDetailsDto(byOrderId);
+        return orderRepository.findByOrderId(id);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public OrderDto getOrderById(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow();
-        return mapOrderToOrderDto(order);
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<OrderDto> getOrderByDateAndPrice(OrderDateAndPriceDto dto) {
-
-        Long orderPrice = dto.getOrderPrice();
-        LocalDateTime orderDate = dto.getOrderDate();
-
-        List<Order> orders = orderRepository.findByDateAndPrice(orderPrice, orderDate);
-        return orders.stream()
-                .map(this::mapOrderToOrderDto)
-                .toList();
+    public List<OrderDetailsDto> getOrderByDateAndPrice(OrderDateAndPriceDto dto) {
+        return orderRepository.findByDateAndPrice(dto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<OrderDto> getOtherOrders(OrderOthersDto dto) {
-        LocalDateTime dateFrom = dto.getDateFrom();
-        LocalDateTime dateTo = dto.getDateTo();
-        String itemName = dto.getItemName();
+    public List<OrderDetailsDto> getOtherOrders(OrderOthersDto dto) {
 
-        List<Order> orders = orderRepository.findByDateAndItemNameExcluded(dateFrom, dateTo, itemName);
-        return orders.stream()
-                .map(this::mapOrderToOrderDto)
-                .toList();
+        return orderRepository.findByDateExcludingItemName(dto);
     }
 
 
@@ -116,23 +93,6 @@ public class OrderServiceImpl implements OrderService {
                 .deliveryType(dto.getDeliveryType())
                 .customerName(dto.getCustomerName())
                 .paymentType(dto.getPaymentType())
-                .build();
-    }
-
-    private OrderDetailsDto mapDetailsOrderProjectionToOrderDetailsDto(OrderDetailsProjection projection) {
-        return OrderDetailsDto.builder()
-                .orderId(projection.getId())
-                .orderNumber(projection.getOrderNumber())
-                .totalAmount(projection.getTotalAmount())
-                .orderDate(projection.getOrderDate())
-                .customerName(projection.getCustomerName())
-                .address(projection.getAddress())
-                .paymentType(projection.getPaymentType())
-                .deliveryType(projection.getDeliveryType())
-                .article(projection.getArticle())
-                .itemName(projection.getItemName())
-                .quantity(projection.getQuantity())
-                .price(projection.getPrice())
                 .build();
     }
 }
