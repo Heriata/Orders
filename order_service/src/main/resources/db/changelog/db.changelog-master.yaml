@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: changelog/10-02-2025-create-table-orders.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/10-02-2025-create-table-order_details.yaml
+      relativeToChangelogFile: true

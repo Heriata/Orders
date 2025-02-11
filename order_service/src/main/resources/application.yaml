@@ -1,0 +1,33 @@
+server:
+  port: 8080
+  servlet:
+    context-path: "/api"
+
+spring:
+  application:
+    name: order_service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5450/order_service
+    password: order_service
+    username: order_service
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    user: order_service
+    password: order_service
+    url: jdbc:postgresql://localhost:5450/order_service
+springdoc:
+  swagger-ui:
+    doc-expansion: none
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    syntax-highlight:
+      activated: true
+      theme: agate
+    try-it-out-enabled: true
