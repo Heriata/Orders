@@ -12,8 +12,7 @@ import java.util.List;
 @Service
 public interface OrderService {
     OrderDto createOrder(OrderCreateDto order);
-    OrderDto getOrderById(Long id);
-    List<OrderDto> getOrderByDateAndPrice(OrderDateAndPriceDto dto);
-    List<OrderDto> getOtherOrders(OrderOthersDto dto);
+    List<OrderDetailsDto> getOrderByDateAndPrice(OrderDateAndPriceDto dto);
+    List<OrderDetailsDto> getOtherOrders(OrderOthersDto dto);
     OrderDetailsDto getByID(Long id);
 }

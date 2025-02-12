@@ -11,6 +11,18 @@ services:
       - postgres:/data/postgres
     ports:
       - "5450:5432"
+  redis:
+    container_name: order_service_redis
+    image: redis:latest
+    environment:
+      - REDIS_PASSWORD = order_service
+      - REDIS_USER = order_password
+      - REDIS_USER_PASSWORD = order_service
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data/redis
 
 volumes:
   postgres:
+  redis:
