@@ -12,6 +12,7 @@ import com.heriata.order_service.repository.DetailsJDBCRepository;
 import com.heriata.order_service.repository.OrderJDBCRepository;
 import com.heriata.order_service.rest_client.NumbersServiceClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +60,17 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByOrderId(id);
     }
 
+    @Cacheable(cacheNames = {"order_service"}, key = "#orderNumber")
+    @Override
+    public OrderDetailsDto getOrderByNumber(String orderNumber) {
+        try{
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return orderRepository.findByOrderNumber(orderNumber);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<OrderDetailsDto> getOrderByDateAndPrice(OrderDateAndPriceDto dto) {
@@ -68,7 +80,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional(readOnly = true)
     public List<OrderDetailsDto> getOtherOrders(OrderOthersDto dto) {
-
         return orderRepository.findByDateExcludingItemName(dto);
     }
 

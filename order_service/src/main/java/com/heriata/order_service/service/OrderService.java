@@ -15,4 +15,6 @@ public interface OrderService {
     List<OrderDetailsDto> getOrderByDateAndPrice(OrderDateAndPriceDto dto);
     List<OrderDetailsDto> getOtherOrders(OrderOthersDto dto);
     OrderDetailsDto getByID(Long id);
+
+    OrderDetailsDto getOrderByNumber(String orderNumber);
 }
