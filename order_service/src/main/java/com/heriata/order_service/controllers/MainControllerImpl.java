@@ -26,6 +26,15 @@ public class MainControllerImpl implements MainController {
 
 
     @Override
+    public ResponseEntity<OrderDetailsDto> getOrderById(@RequestParam("orderNumber") String orderNumber) {
+        log.info("getByNumber: {}", orderNumber);
+
+        //todo service >>
+
+        return null;
+    }
+
+    @Override
     public ResponseEntity<OrderDetailsDto> getById(@RequestParam("orderId") Long orderId) {
         OrderDetailsDto orderById = orderService.getByID(orderId);
         log.info("getById: {}", orderById);

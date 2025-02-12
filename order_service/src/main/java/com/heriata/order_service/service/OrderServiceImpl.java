@@ -5,6 +5,7 @@ import com.heriata.order_service.dto.OrderDateAndPriceDto;
 import com.heriata.order_service.dto.OrderDetailsDto;
 import com.heriata.order_service.dto.OrderDto;
 import com.heriata.order_service.dto.OrderOthersDto;
+import com.heriata.order_service.exceptions.EntityNotSavedException;
 import com.heriata.order_service.model.Details;
 import com.heriata.order_service.model.Order;
 import com.heriata.order_service.repository.DetailsJDBCRepository;
@@ -36,7 +37,16 @@ public class OrderServiceImpl implements OrderService {
 
         Order save = orderRepository.save(order);
 
+        if (save == null) {
+            throw new EntityNotSavedException(order.getOrderNumber());
+        }
+
         Details details = mapOrderCreateDtoToDetails(dto);
+
+        if (details == null) {
+            throw new EntityNotSavedException(String.valueOf(order.getOrderId()));
+        }
+
         details.setOrderId(save.getOrderId());
 
         detailsRepository.save(details);

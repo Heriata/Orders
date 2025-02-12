@@ -22,6 +22,10 @@ import java.util.List;
 public interface MainController extends GlobalController {
 
     @Operation(summary = "Get Order", description = "Get info about order by its id")
+    @GetMapping("/by-number")
+    ResponseEntity<OrderDetailsDto> getOrderById(@RequestParam String orderNumber);
+
+    @Operation(summary = "Get Order", description = "Get info about order by its id")
     @GetMapping("/by-id")
     ResponseEntity<OrderDetailsDto> getById(@RequestParam("orderId") Long orderId);
 
