@@ -44,7 +44,7 @@ public class MainControllerImpl implements MainController {
                                                                    @RequestParam("price") Long price) {
         OrderDateAndPriceDto orderDateAndPrice = OrderDateAndPriceDto.builder()
                 .orderDate(dateFrom)
-                .orderPrice(price)
+                .orderTotalAmount(price)
                 .build();
         List<OrderDetailsDto> dto = orderService.getOrderByDateAndPrice(orderDateAndPrice);
         log.info("getByDateAndPrice: {}", dto);

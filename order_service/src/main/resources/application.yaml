@@ -31,3 +31,6 @@ springdoc:
       activated: true
       theme: agate
     try-it-out-enabled: true
+logging:
+  level:
+    web: debug

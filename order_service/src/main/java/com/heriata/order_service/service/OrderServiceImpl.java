@@ -5,6 +5,7 @@ import com.heriata.order_service.dto.OrderDateAndPriceDto;
 import com.heriata.order_service.dto.OrderDetailsDto;
 import com.heriata.order_service.dto.OrderDto;
 import com.heriata.order_service.dto.OrderOthersDto;
+import com.heriata.order_service.exceptions.EntityNotFoundException;
 import com.heriata.order_service.exceptions.EntityNotSavedException;
 import com.heriata.order_service.model.Details;
 import com.heriata.order_service.model.Order;
@@ -43,44 +44,62 @@ public class OrderServiceImpl implements OrderService {
         }
 
         Details details = mapOrderCreateDtoToDetails(dto);
+        details.setOrderId(save.getOrderId());
 
-        if (details == null) {
+        Details detailsSaved = detailsRepository.save(details);
+        if (detailsSaved == null) {
             throw new EntityNotSavedException(String.valueOf(order.getOrderId()));
         }
 
-        details.setOrderId(save.getOrderId());
-
-        detailsRepository.save(details);
         return this.mapOrderToOrderDto(save);
     }
 
     @Override
     @Transactional(readOnly = true)
     public OrderDetailsDto getByID(Long id) {
-        return orderRepository.findByOrderId(id);
+        OrderDetailsDto orderDetailsDto = orderRepository.findByOrderId(id);
+        if (orderDetailsDto == null) {
+            throw new EntityNotFoundException(
+                    String.format("Order with id %s not found", id));
+        }
+
+        return orderDetailsDto;
     }
 
-    @Cacheable(cacheNames = {"order_service"}, key = "#orderNumber")
     @Override
+    @Cacheable(cacheNames = {"order_service"}, key = "#orderNumber")
     public OrderDetailsDto getOrderByNumber(String orderNumber) {
-        try{
+        try {
+            // simulate heavy operation for cache demonstration
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return orderRepository.findByOrderNumber(orderNumber);
+        OrderDetailsDto orderDetailsDto = orderRepository.findByOrderNumber(orderNumber);
+        if (orderDetailsDto == null) {
+            throw new EntityNotFoundException(String.format("Order with id %s not found", orderNumber));
+        }
+        return orderDetailsDto;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<OrderDetailsDto> getOrderByDateAndPrice(OrderDateAndPriceDto dto) {
-        return orderRepository.findByDateAndPrice(dto);
+        List<OrderDetailsDto> list = orderRepository.findByDateAndPrice(dto);
+        if (list == null) {
+            throw new EntityNotFoundException("No orders with such parameters found");
+        }
+        return list;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<OrderDetailsDto> getOtherOrders(OrderOthersDto dto) {
-        return orderRepository.findByDateExcludingItemName(dto);
+        List<OrderDetailsDto> list = orderRepository.findByDateExcludingItemName(dto);
+        if (list == null) {
+            throw new EntityNotFoundException("No orders with such parameters found");
+        }
+        return list;
     }
 
 

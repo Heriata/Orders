@@ -88,7 +88,7 @@ public class OrderJDBCRepository {
         List<OrderDetailsDto> orders;
         try {
             RowMapper<OrderDetailsDto> rowMapper = (rs, rowNum) -> provideOrderDetailsDto(rs);
-            orders = jdbcTemplate.query(query, rowMapper, dto.getOrderDate(), dto.getOrderPrice());
+            orders = jdbcTemplate.query(query, rowMapper, dto.getOrderDate(), dto.getOrderTotalAmount());
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
