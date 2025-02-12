@@ -13,5 +13,5 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class OrderDateAndPriceDto {
     private LocalDateTime orderDate;
-    private Long orderPrice;
+    private Long orderTotalAmount;
 }

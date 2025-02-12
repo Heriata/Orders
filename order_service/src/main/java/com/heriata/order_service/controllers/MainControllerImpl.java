@@ -28,10 +28,8 @@ public class MainControllerImpl implements MainController {
     @Override
     public ResponseEntity<OrderDetailsDto> getOrderById(@RequestParam("orderNumber") String orderNumber) {
         log.info("getByNumber: {}", orderNumber);
-
-        //todo service >>
-
-        return null;
+        OrderDetailsDto orderByNumber = orderService.getOrderByNumber(orderNumber);
+        return new ResponseEntity<>(orderByNumber, HttpStatus.OK);
     }
 
     @Override
@@ -46,7 +44,7 @@ public class MainControllerImpl implements MainController {
                                                                    @RequestParam("price") Long price) {
         OrderDateAndPriceDto orderDateAndPrice = OrderDateAndPriceDto.builder()
                 .orderDate(dateFrom)
-                .orderPrice(price)
+                .orderTotalAmount(price)
                 .build();
         List<OrderDetailsDto> dto = orderService.getOrderByDateAndPrice(orderDateAndPrice);
         log.info("getByDateAndPrice: {}", dto);

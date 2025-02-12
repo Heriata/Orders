@@ -9,7 +9,7 @@ import java.util.Random;
 @Service
 public class NumberServiceImpl implements NumberService {
     private final static String symbols = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()+=_-";
-    private final static String numbers = "12334567890";
+    private final static String numbers = "1234567890";
     private final Random random = new Random();
 
     @Override

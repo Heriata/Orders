@@ -88,7 +88,7 @@ public class OrderJDBCRepository {
         List<OrderDetailsDto> orders;
         try {
             RowMapper<OrderDetailsDto> rowMapper = (rs, rowNum) -> provideOrderDetailsDto(rs);
-            orders = jdbcTemplate.query(query, rowMapper, dto.getOrderDate(), dto.getOrderPrice());
+            orders = jdbcTemplate.query(query, rowMapper, dto.getOrderDate(), dto.getOrderTotalAmount());
         } catch (DataAccessException e) {
             throw new RuntimeException(e);
         }
@@ -111,6 +111,23 @@ public class OrderJDBCRepository {
             throw new RuntimeException(e);
         }
         return orders;
+    }
+
+    public OrderDetailsDto findByOrderNumber(String orderNumber) {
+        String query = """
+                select * from orders o
+                join public.order_details od on o.id = od.order_id
+                where o.order_number = ?
+                """;
+
+        OrderDetailsDto orderDetailsDto;
+        try {
+            RowMapper<OrderDetailsDto> rowMapper = (rs, rowNum) -> provideOrderDetailsDto(rs);
+            orderDetailsDto = jdbcTemplate.query(query, rowMapper, orderNumber).get(0);
+        } catch (DataAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return orderDetailsDto;
     }
 
     private static OrderDetailsDto provideOrderDetailsDto(ResultSet rs) throws SQLException {

@@ -21,7 +21,7 @@ import java.util.List;
 @Tag(name = "Orders Controller", description = "Orders management operations")
 public interface MainController extends GlobalController {
 
-    @Operation(summary = "Get Order", description = "Get info about order by its id")
+    @Operation(summary = "Get Order", description = "Get Order By OrderNumber. For Redis cache demonstration")
     @GetMapping("/by-number")
     ResponseEntity<OrderDetailsDto> getOrderById(@RequestParam String orderNumber);
 
