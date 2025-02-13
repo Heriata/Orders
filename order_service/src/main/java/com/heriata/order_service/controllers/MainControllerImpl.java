@@ -24,16 +24,15 @@ public class MainControllerImpl implements MainController {
 
     private OrderService orderService;
 
-
     @Override
-    public ResponseEntity<OrderDetailsDto> getOrderById(@RequestParam("orderNumber") String orderNumber) {
+    public ResponseEntity<OrderDetailsDto> getOrderByOrderNumber(@RequestParam("orderNumber") String orderNumber) {
         log.info("getByNumber: {}", orderNumber);
         OrderDetailsDto orderByNumber = orderService.getOrderByNumber(orderNumber);
         return new ResponseEntity<>(orderByNumber, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<OrderDetailsDto> getById(@RequestParam("orderId") Long orderId) {
+    public ResponseEntity<OrderDetailsDto> getByOrderId(@RequestParam("orderId") Long orderId) {
         OrderDetailsDto orderById = orderService.getByID(orderId);
         log.info("getById: {}", orderById);
         return new ResponseEntity<>(orderById, HttpStatus.OK);

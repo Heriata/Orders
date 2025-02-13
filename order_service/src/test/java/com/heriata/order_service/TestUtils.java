@@ -3,6 +3,7 @@ package com.heriata.order_service;
 import com.heriata.order_service.dto.OrderCreateDto;
 import com.heriata.order_service.dto.OrderDateAndPriceDto;
 import com.heriata.order_service.dto.OrderDetailsDto;
+import com.heriata.order_service.dto.OrderDto;
 import com.heriata.order_service.dto.OrderOthersDto;
 import com.heriata.order_service.enums.DeliveryType;
 import com.heriata.order_service.enums.PaymentType;
@@ -21,17 +22,18 @@ public class TestUtils {
     private static final String CUSTOMER_NAME = "name";
     private static final String ADDRESS = "address";
     private static final String ITEM_NAME = "itemName";
-    private static final String ORDER_NUMBER = "111112025";
+    private static final String ORDER_NUMBER = "0000012345678";
 
     private static final String numbers = "1234567890";
     private static final long QUANTITY = 10L;
     private static final long PRICE = 5L;
-    private static final long TOTAL_AMOUNT = 100L;
+    private static final long TOTAL_AMOUNT = 50L;
 
     private static final long DETAILS_ID = 1L;
     private static final long ORDER_ID = 1L;
     private static final long ARTICLE = 123L;
     private static final long seed = 100L;
+    private static LocalDateTime localDateTimeNow;
 
 
     static OrderCreateDto provideOrderCreateDto() {
@@ -115,6 +117,7 @@ public class TestUtils {
         number.append(now);
         return number.toString();
     }
+
     public static List<OrderDetailsDto> provideListOrderDetailsDto() {
         List<OrderDetailsDto> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
@@ -139,4 +142,24 @@ public class TestUtils {
                 .build();
     }
 
+    public static OrderDto provideOrderDto() {
+        return OrderDto.builder()
+                .orderId(ORDER_ID)
+                .orderNumber(ORDER_NUMBER)
+                .deliveryType(DeliveryType.SELF)
+                .paymentType(PaymentType.CARD)
+                .address(ADDRESS)
+                .customerName(CUSTOMER_NAME)
+                .totalAmount(PRICE * QUANTITY)
+                .orderDate(LocalDateTime.now())
+                .build();
+    }
+
+    public static LocalDateTime getLocalDateTimeNow() {
+        return localDateTimeNow;
+    }
+
+    public static void setLocalDateTimeNow() {
+        localDateTimeNow = LocalDateTime.now();
+    }
 }

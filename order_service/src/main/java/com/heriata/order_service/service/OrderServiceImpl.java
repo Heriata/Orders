@@ -89,6 +89,9 @@ public class OrderServiceImpl implements OrderService {
         if (list == null) {
             throw new EntityNotFoundException("No orders with such parameters found");
         }
+        if (list.isEmpty()) {
+            throw new EntityNotFoundException("No orders with such parameters found");
+        }
         return list;
     }
 
