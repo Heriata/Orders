@@ -21,24 +21,26 @@ import java.util.List;
 @Tag(name = "Orders Controller", description = "Orders management operations")
 public interface MainController extends GlobalController {
 
-    @Operation(summary = "Get Order", description = "Get Order By OrderNumber. For Redis cache demonstration")
+    @Operation(summary = "Get Order by OrderNumber", description = "Get Order By OrderNumber. For Redis cache demonstration")
     @GetMapping("/by-number")
-    ResponseEntity<OrderDetailsDto> getOrderById(@RequestParam String orderNumber);
+    ResponseEntity<OrderDetailsDto> getOrderByOrderNumber(
+            @RequestParam("orderNumber") @Parameter(description = "(exmpl: 0001320250211)") String orderNumber);
 
-    @Operation(summary = "Get Order", description = "Get info about order by its id")
+    @Operation(summary = "Get Order By Id", description = "Get info about order by its id")
     @GetMapping("/by-id")
-    ResponseEntity<OrderDetailsDto> getById(@RequestParam("orderId") Long orderId);
+    ResponseEntity<OrderDetailsDto> getByOrderId(@RequestParam("orderId") Long orderId);
 
-    @Operation(summary = "Get Order", description = "Get orders that was created after the specified date and has bigger total sum than specified")
+    @Operation(summary = "Get Order By Date and Price", description = "Get orders that was created after the specified date and has bigger total sum than specified")
     @GetMapping(value = "/date-price")
-    ResponseEntity<List<OrderDetailsDto>> getByDateAndPrice(@RequestParam("dateFrom") @Parameter(description = "yyyy-MM-ddThh:mm:ss") LocalDateTime dateFrom,
-                                                            @RequestParam("price") Long price);
+    ResponseEntity<List<OrderDetailsDto>> getByDateAndPrice(
+            @RequestParam(value = "dateFrom", defaultValue = "2025-02-11T00:00:00") @Parameter(description = "yyyy-MM-ddThh:mm:ss (exmpl: 2025-02-11T00:00:00)") LocalDateTime dateFrom,
+            @RequestParam("price") @Parameter(description = "(exmpl: 600)") Long price);
 
-    @Operation(summary = "Get Order", description = "Get orders that was created in specified time interval and does not contain specified item")
+    @Operation(summary = "Get Order By Date Excluding Name", description = "Get orders that was created in specified time interval and does not contain specified item. (use example values)" )
     @GetMapping("/other")
-    ResponseEntity<List<OrderDetailsDto>> getOtherOrders(@RequestParam("dateFrom") @Parameter(description = "yyyy-MM-ddThh:mm:ss") LocalDateTime dateFrom,
-                                                         @RequestParam("dateTo") @Parameter(description = "yyyy-MM-ddThh:mm:ss") LocalDateTime dateTo,
-                                                         @RequestParam("itemName") @Parameter(description = "Item name to be excluded") String itemName);
+    ResponseEntity<List<OrderDetailsDto>> getOtherOrders(@RequestParam("dateFrom") @Parameter(description = "yyyy-MM-ddThh:mm:ss (2025-02-11T00:00:00)") LocalDateTime dateFrom,
+                                                         @RequestParam("dateTo") @Parameter(description = "yyyy-MM-ddThh:mm:ss (2025-02-12T00:00:00)") LocalDateTime dateTo,
+                                                         @RequestParam("itemName") @Parameter(description = "Item name to be excluded (chicken)") String itemName);
 
     @Operation(summary = "Create Order", description = "Create order by providing all of the necessary information")
     @PostMapping("/add-order")

@@ -36,14 +36,9 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class OrderServiceTest {
 
-    private static final String NAME = "name";
-    private static final String ADDRESS = "address";
     private static final String ITEM_NAME = "itemName";
-    private static final long QUANTITY = 10L;
 
-    private static final long PRICE = 5L;
     private static final long TOTAL_AMOUNT = 50L;
-    private static final long DETAILS_ID = 1L;
     private static final long ORDER_ID = 1L;
 
     private static final long ARTICLE = 123L;
@@ -61,10 +56,6 @@ public class OrderServiceTest {
 
     @Mock
     private NumbersServiceClient numbersServiceClient;
-
-    @BeforeEach
-    public void setUp() {
-    }
 
     @Test
     @DisplayName("Should create Order")
@@ -98,7 +89,7 @@ public class OrderServiceTest {
         when(numbersServiceClient.getOrderNumber()).thenReturn(ORDER_NUMBER);
         when(orderRepository.save(any())).thenReturn(null);
 
-        RuntimeException exception = assertThrows(RuntimeException.class,
+        EntityNotSavedException exception = assertThrows(EntityNotSavedException.class,
                 () -> this.orderService.createOrder(orderCreateDto));
 
         assertEquals(EntityNotSavedException.class, exception.getClass());
@@ -114,7 +105,7 @@ public class OrderServiceTest {
         when(orderRepository.save(any())).thenReturn(order);
         when(detailsRepository.save(any())).thenReturn(null);
 
-        RuntimeException exception = assertThrows(RuntimeException.class,
+        EntityNotSavedException exception = assertThrows(EntityNotSavedException.class,
                 () -> this.orderService.createOrder(orderCreateDto));
 
         assertEquals(EntityNotSavedException.class, exception.getClass());
@@ -175,6 +166,20 @@ public class OrderServiceTest {
     public void shouldThrowEntityNotFoundExceptionWhenInvalidDateAndPrice() {
         OrderDateAndPriceDto dto = TestUtils.providedOrderDateAndPriceDto(TOTAL_AMOUNT);
         when(orderRepository.findByDateAndPrice(dto)).thenReturn(null);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                orderService.getOrderByDateAndPrice(dto));
+
+        assertNotNull(exception);
+        assertEquals(EntityNotFoundException.class, exception.getClass());
+        assertEquals("No orders with such parameters found", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("getOrderByDateAndPrice should throw EntityNotFoundException when there are no Orders for such parameters")
+    public void shouldThrowEntityNotFoundExceptionWhenEmptyResult() {
+        OrderDateAndPriceDto dto = TestUtils.providedOrderDateAndPriceDto(TOTAL_AMOUNT);
+        when(orderRepository.findByDateAndPrice(dto)).thenReturn(List.of());
 
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
                 orderService.getOrderByDateAndPrice(dto));
