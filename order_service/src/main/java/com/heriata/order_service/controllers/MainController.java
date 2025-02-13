@@ -28,7 +28,8 @@ public interface MainController extends GlobalController {
 
     @Operation(summary = "Get Order By Id", description = "Get info about order by its id")
     @GetMapping("/by-id")
-    ResponseEntity<OrderDetailsDto> getByOrderId(@RequestParam("orderId") Long orderId);
+    ResponseEntity<OrderDetailsDto> getByOrderId(
+            @RequestParam("orderId") @Parameter(description = "Get OrderDetails by OrderNumber. Cache TTL is 5sec") Long orderId);
 
     @Operation(summary = "Get Order By Date and Price", description = "Get orders that was created after the specified date and has bigger total sum than specified")
     @GetMapping(value = "/date-price")
