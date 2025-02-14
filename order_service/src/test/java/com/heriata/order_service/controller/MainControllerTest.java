@@ -1,7 +1,8 @@
-package com.heriata.order_service;
+package com.heriata.order_service.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.heriata.order_service.utils.TestUtils;
 import com.heriata.order_service.controllers.MainControllerImpl;
 import com.heriata.order_service.dto.OrderCreateDto;
 import com.heriata.order_service.dto.OrderDateAndPriceDto;
@@ -10,7 +11,6 @@ import com.heriata.order_service.dto.OrderDto;
 import com.heriata.order_service.dto.OrderOthersDto;
 import com.heriata.order_service.enums.DeliveryType;
 import com.heriata.order_service.enums.PaymentType;
-import com.heriata.order_service.repository.OrderJDBCRepository;
 import com.heriata.order_service.service.OrderService;
 import com.heriata.order_service.service.OrderServiceImpl;
 import lombok.SneakyThrows;
