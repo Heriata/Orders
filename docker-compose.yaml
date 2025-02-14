@@ -1,0 +1,72 @@
+name: order_service
+
+services:
+  postgresql:
+    container_name: order_service_postgresql
+    image: postgres
+    environment:
+      POSTGRES_USER: order_service
+      POSTGRES_PASSWORD: order_service
+    restart: always
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5451:5432"
+    networks:
+      - orders
+
+  redis:
+    container_name: order_service_redis
+    image: redis:latest
+    environment:
+      - REDIS_PASSWORD=order_service
+      - REDIS_USER=order_password
+      - REDIS_USER_PASSWORD=order_service
+    ports:
+      - "6380:6379"
+    restart: always
+    volumes:
+      - redis:/data/redis
+    networks:
+       - orders
+
+  numbers:
+    container_name: numbers
+    build:
+      context: ./numbers
+      dockerfile: Dockerfile
+    ports:
+      - "8091:8081"
+    environment:
+      - SPRING_PROFILE_ACTIVE=prod
+    networks:
+      - orders
+
+  order_service:
+    container_name: order_service
+    build:
+      context: ./order_service
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8080"
+    environment:
+      - DATABASE_HOST=postgresql
+      - DATABASE_PORT=5432
+      - NUMBER_SERVICE_HOST=numbers
+      - NUMBER_SERVICE_PORT=8081
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    networks:
+      - orders
+    depends_on:
+      - postgresql
+      - redis
+      - numbers
+
+volumes:
+  postgres:
+  redis:
+
+networks:
+  orders:
+    driver: bridge

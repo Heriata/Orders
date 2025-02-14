@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.heriata</groupId>
-    <artifactId>number_service</artifactId>
+    <artifactId>numbers</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>number_service</name>
     <description>number_service</description>

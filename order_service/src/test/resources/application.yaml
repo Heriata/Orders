@@ -3,6 +3,15 @@ server:
   servlet:
     context-path: "/api"
 
+numbers:
+  host: ${NUMBER_SERVICE_HOST:localhost}
+  port: ${NUMBER_SERVICE_PORT:8081}
+
+redis:
+  host: ${REDIS_HOST:localhost}
+  port: ${REDIS_PORT:6379}
+
+
 spring:
   profiles:
     active: test
@@ -10,7 +19,7 @@ spring:
     name: order_service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5450/order_service
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5450}/order_service
     password: order_service
     username: order_service
   jpa:
@@ -21,11 +30,11 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
-#    parameters:
-#      liquibase.searchPath: src/main/resources/db/changelog/changelog
+    #    parameters:
+    #      liquibase.searchPath: src/main/resources/db/changelog/changelog
     user: order_service
     password: order_service
-    url: jdbc:postgresql://localhost:5450/order_service
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5450}/order_service
   testcontainers:
     dynamic-property-registry-injection: allow
 springdoc:
