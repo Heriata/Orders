@@ -1,5 +1,6 @@
-package com.heriata.order_service;
+package com.heriata.order_service.service;
 
+import com.heriata.order_service.utils.TestUtils;
 import com.heriata.order_service.dto.OrderCreateDto;
 import com.heriata.order_service.dto.OrderDateAndPriceDto;
 import com.heriata.order_service.dto.OrderDetailsDto;
@@ -12,8 +13,6 @@ import com.heriata.order_service.model.Order;
 import com.heriata.order_service.repository.DetailsJDBCRepository;
 import com.heriata.order_service.repository.OrderJDBCRepository;
 import com.heriata.order_service.rest_client.NumbersServiceClient;
-import com.heriata.order_service.service.OrderServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

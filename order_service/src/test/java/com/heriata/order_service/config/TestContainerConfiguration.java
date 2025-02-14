@@ -1,4 +1,4 @@
-package com.heriata.order_service;
+package com.heriata.order_service.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

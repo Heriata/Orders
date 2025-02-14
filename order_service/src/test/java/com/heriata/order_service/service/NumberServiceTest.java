@@ -1,4 +1,4 @@
-package com.heriata.order_service;
+package com.heriata.order_service.service;
 
 import com.heriata.order_service.rest_client.NumbersServiceClient;
 import lombok.extern.slf4j.Slf4j;

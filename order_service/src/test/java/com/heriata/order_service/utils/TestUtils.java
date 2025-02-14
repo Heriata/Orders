@@ -1,4 +1,4 @@
-package com.heriata.order_service;
+package com.heriata.order_service.utils;
 
 import com.heriata.order_service.dto.OrderCreateDto;
 import com.heriata.order_service.dto.OrderDateAndPriceDto;
@@ -36,7 +36,7 @@ public class TestUtils {
     private static LocalDateTime localDateTimeNow;
 
 
-    static OrderCreateDto provideOrderCreateDto() {
+    public static OrderCreateDto provideOrderCreateDto() {
         return OrderCreateDto.builder()
                 .customerName(CUSTOMER_NAME)
                 .address(ADDRESS)
@@ -49,7 +49,7 @@ public class TestUtils {
                 .build();
     }
 
-    static Order provideOrder() {
+    public static Order provideOrder() {
         return Order.builder()
                 .orderId(ORDER_ID)
                 .totalAmount(TOTAL_AMOUNT)
@@ -61,7 +61,7 @@ public class TestUtils {
                 .build();
     }
 
-    static Details provideDetails() {
+    public static Details provideDetails() {
         return Details.builder()
                 .detailsId(DETAILS_ID)
                 .orderId(ORDER_ID)
@@ -72,7 +72,7 @@ public class TestUtils {
                 .build();
     }
 
-    static OrderDetailsDto providedOrderDetailsDto(long seed) {
+    public static OrderDetailsDto providedOrderDetailsDto(long seed) {
         return OrderDetailsDto.builder()
                 .orderId(ORDER_ID)
                 .orderNumber(getOrderNumber(seed))
@@ -95,18 +95,18 @@ public class TestUtils {
         return orderDetailsDto;
     }
 
-    static OrderDateAndPriceDto providedOrderDateAndPriceDto(Long total) {
+    public static OrderDateAndPriceDto providedOrderDateAndPriceDto(Long total) {
         return OrderDateAndPriceDto.builder()
                 .orderDate(LocalDateTime.now().minusDays(1))
                 .orderTotalAmount(total)
                 .build();
     }
 
-    static long getSeed() {
+    public static long getSeed() {
         return seed;
     }
 
-    static String getOrderNumber(long seed) {
+    public static String getOrderNumber(long seed) {
         Random random = new Random(seed);
         StringBuilder number = new StringBuilder();
         for (int i = 0; i < 5; i++) {

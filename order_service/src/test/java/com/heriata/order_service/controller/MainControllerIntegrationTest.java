@@ -1,7 +1,9 @@
-package com.heriata.order_service;
+package com.heriata.order_service.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.heriata.order_service.config.TestContainerConfiguration;
+import com.heriata.order_service.utils.TestUtils;
 import com.heriata.order_service.dto.OrderCreateDto;
 import com.heriata.order_service.dto.OrderDetailsDto;
 import com.heriata.order_service.dto.OrderDto;

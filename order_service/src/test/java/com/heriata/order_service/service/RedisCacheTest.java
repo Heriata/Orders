@@ -1,10 +1,10 @@
-package com.heriata.order_service;
+package com.heriata.order_service.service;
 
+import com.heriata.order_service.utils.TestUtils;
 import com.heriata.order_service.dto.OrderDetailsDto;
 import com.heriata.order_service.repository.DetailsJDBCRepository;
 import com.heriata.order_service.repository.OrderJDBCRepository;
 import com.heriata.order_service.rest_client.NumbersServiceClient;
-import com.heriata.order_service.service.OrderServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
