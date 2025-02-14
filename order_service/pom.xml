@@ -41,6 +41,13 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <!-- Redis-->
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>5.2.0</version>
+        </dependency>
 
         <!-- Swagger -->
         <dependency>
